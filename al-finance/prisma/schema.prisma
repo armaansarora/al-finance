@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Checkin {
+  id        String   @id @default(cuid())
+  person    String   // "armaan" | "layla"
+  date      String   // "2026-02-14"
+  amount    Float
+  note      String   @default("")
+  createdAt DateTime @default(now())
+}
+
+model CushionEntry {
+  id        String   @id @default(cuid())
+  person    String
+  date      String
+  amount    Float
+  type      String   // "add" | "withdraw"
+  note      String   @default("")
+  createdAt DateTime @default(now())
+}
+
+model DateNightEntry {
+  id        String   @id @default(cuid())
+  person    String   // "armaan" | "layla" | "both"
+  date      String
+  amount    Float
+  type      String   // "contrib" | "spend"
+  note      String   @default("")
+  createdAt DateTime @default(now())
+}
+
+model Settings {
+  id        String @id @default("singleton")
+  allowance Float  @default(2000)
+  savings   Float  @default(200)
+  dnWeekly  Float  @default(50)
+  weekMode  Int    @default(4)
+  paceOk    Float  @default(0.05)
+  paceTight Float  @default(0.12)
+}
+
+model LaylaReceived {
+  id     String @id // month key like "2026-02"
+  amount Float  @default(0)
+}
